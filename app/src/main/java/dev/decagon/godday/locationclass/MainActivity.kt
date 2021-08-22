@@ -2,6 +2,7 @@ package dev.decagon.godday.locationclass
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -35,13 +36,10 @@ class MainActivity : AppCompatActivity() {
      *          This is used for receiving notifications when the device location has changed
      *          or can no longer be determined.
      *          This is passed a LocationResult where you can get the Location for your use cases.
-     *          AIzaSyAthhIO_GouXILgbeUiaXvXdoX7V2q6Aug
      */
 
     companion object {
         private const val REQUEST_LOCATION_PERMISSION = 1
-        var latitude = 0.0
-        var longitude = 0.0
     }
 
     // Declare Views
@@ -69,6 +67,9 @@ class MainActivity : AppCompatActivity() {
 
         myCoOrdinates.text = getString(R.string.my_coords, "", "")
         showCoOrdsBtn.setOnClickListener { getCurrentLocation() }
+        gotoMapBtn.setOnClickListener {
+            startActivity(Intent(this, LocationTrackingActivity::class.java))
+        }
     }
 
     // Method that checks if permission to access fine location has been granted
@@ -117,8 +118,8 @@ class MainActivity : AppCompatActivity() {
             if (locationRequest == null) {
                 locationRequest = LocationRequest.create().apply {
                     priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-                    interval = 10_000
-                    fastestInterval = 5_000
+                    interval = 5_000
+                    fastestInterval = 2_000
 
                     val locationCallback = object : LocationCallback() {
                         override fun onLocationResult(locationResult: LocationResult) {
@@ -131,14 +132,14 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
+            // Update the UI when the last location is available
             fusedLocationClient.lastLocation.addOnCompleteListener {
                 val myLocation = it.result
 
                 if (myLocation != null) {
-                    latitude = myLocation.latitude
-                    longitude = myLocation.longitude
                     myCoOrdinates.text =
-                        getString(R.string.my_coords, "$latitude", "$longitude")
+                        getString(R.string.my_coords, "${myLocation.latitude}", "${myLocation.longitude}")
+                    LocationTrackingActivity.updateMap(myLocation.latitude, myLocation.longitude)
                 } else {
                     Log.d("Location", "No location found!")
                 }

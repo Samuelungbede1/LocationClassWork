@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Location Class</string>
+    <string name="my_coords">Latitude: %1$s \nLongitude: %2$s</string>
+</resources>

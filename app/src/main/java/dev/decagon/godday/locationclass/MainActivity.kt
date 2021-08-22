@@ -15,8 +15,33 @@ import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
 
+    /**
+     *                          INTRO TO LOCATION API
+     *
+     *  Your app can access the set of supported location services through classes
+     *  in the com.google.android.gms.location package.
+     *  Look at the main classes:
+     *
+     * *    FusedLocationProviderClient:
+     *          This is the central component of the location framework.
+     *          Once created, you use it to request location updates and get the last known location.
+     *
+     * *   LocationRequest:
+     *          This is a data object that contains quality-of-service parameters
+     *          for requests (intervals for updates, priorities, and accuracy).
+     *          This is passed to the FusedLocationProviderClient when you request location updates.
+     *
+     * *   LocationCallback:
+     *          This is used for receiving notifications when the device location has changed
+     *          or can no longer be determined.
+     *          This is passed a LocationResult where you can get the Location for your use cases.
+     *          AIzaSyAthhIO_GouXILgbeUiaXvXdoX7V2q6Aug
+     */
+
     companion object {
         private const val REQUEST_LOCATION_PERMISSION = 1
+        var latitude = 0.0
+        var longitude = 0.0
     }
 
     // Declare Views
@@ -110,8 +135,10 @@ class MainActivity : AppCompatActivity() {
                 val myLocation = it.result
 
                 if (myLocation != null) {
+                    latitude = myLocation.latitude
+                    longitude = myLocation.longitude
                     myCoOrdinates.text =
-                        getString(R.string.my_coords, "${myLocation.latitude}", "${myLocation.longitude}")
+                        getString(R.string.my_coords, "$latitude", "$longitude")
                 } else {
                     Log.d("Location", "No location found!")
                 }

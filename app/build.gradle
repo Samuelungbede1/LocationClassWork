@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+
 }
 
 android {
@@ -44,4 +46,6 @@ dependencies {
 
     // Location services
     implementation "com.google.android.gms:play-services-location:$google_service_version"
+    // Maps
+    implementation 'com.google.android.gms:play-services-maps:17.0.1'
 }

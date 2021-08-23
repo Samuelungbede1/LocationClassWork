@@ -23,23 +23,31 @@ class LocationTrackingActivity : AppCompatActivity(), OnMapReadyCallback {
 
     // Initialize the map
     override fun onMapReady(googleMap: GoogleMap) {
-        map = googleMap
+      //  map = googleMap
+
+        val myLatLng = LatLng(MainActivity.latitude, MainActivity.longitude)
+        val update = CameraUpdateFactory.newLatLngZoom(myLatLng, 16.0f)
+        googleMap.clear()
+        googleMap.addMarker(
+            MarkerOptions().position(myLatLng).title("Here's my current location")
+        )
+        googleMap.moveCamera(update)
     }
 
     companion object {
-        private lateinit var map: GoogleMap
+//        private lateinit var map: GoogleMap
 
         // Method to update the map from the MainActivity
-        fun updateMap(latitude: Double, longitude: Double)  {
-            if (this::map.isInitialized) {
-                val myLatLng = LatLng(latitude, longitude)
-                val update = CameraUpdateFactory.newLatLngZoom(myLatLng, 16.0f)
-                map.clear()
-                map.addMarker(
-                    MarkerOptions().position(myLatLng).title("Here's my current location")
-                )
-                map.moveCamera(update)
-            }
-        }
+//        fun updateMap(latitude: Double, longitude: Double)  {
+//            if (this::map.isInitialized) {
+//                val myLatLng = LatLng(latitude, longitude)
+//                val update = CameraUpdateFactory.newLatLngZoom(myLatLng, 16.0f)
+//                map.clear()
+//                map.addMarker(
+//                    MarkerOptions().position(myLatLng).title("Here's my current location")
+//                )
+//                map.moveCamera(update)
+//            }
+//        }
     }
 }

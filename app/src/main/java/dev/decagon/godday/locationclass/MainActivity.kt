@@ -40,6 +40,8 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val REQUEST_LOCATION_PERMISSION = 1
+        var latitude = 0.0
+        var longitude = 0.0
     }
 
     // Declare Views
@@ -137,9 +139,11 @@ class MainActivity : AppCompatActivity() {
                 val myLocation = it.result
 
                 if (myLocation != null) {
+                    latitude = myLocation.latitude
+                    longitude = myLocation.longitude
                     myCoOrdinates.text =
                         getString(R.string.my_coords, "${myLocation.latitude}", "${myLocation.longitude}")
-                    LocationTrackingActivity.updateMap(myLocation.latitude, myLocation.longitude)
+                //    LocationTrackingActivity.updateMap(myLocation.latitude, myLocation.longitude)
                 } else {
                     Log.d("Location", "No location found!")
                 }
